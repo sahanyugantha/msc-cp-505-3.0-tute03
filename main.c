@@ -46,6 +46,9 @@ void init(){
             case 5:
                 reportSubMenu();
                 break;
+            case 7:
+                exit(0);
+                break;
             default:
                 init();
                 break;
