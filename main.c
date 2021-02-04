@@ -36,6 +36,9 @@ void init(){
             case 1:
                 addStudent();
                 break;
+            case 3:
+                loadRecords();
+                break;
             case 5:
                 reportSubMenu();
                 break;
@@ -71,7 +74,7 @@ int showMainMenu(){
 
 int reportSubMenu(){
 
-   int reportMenuOption;
+    int reportMenuOption;
 
     printf("---------------------------- \n");
     printf(" Please select report type     \n");
@@ -99,8 +102,6 @@ int reportSubMenu(){
 }
 
 void loadBlukInputs(){
-
-
     for(int i=0; i < N; i++){
         if(i < 5){
             indexNoArr[i] = s_indexNoArr[i];
@@ -108,14 +109,6 @@ void loadBlukInputs(){
             physicsArr[i] = s_physicsArr[i];
             chemistryArr[i] = s_chemistryArr[i];
         }
-
-        //prepare arrays
-        /*if(i >= bulk_no_of_std){
-            indexNoArr[i] = NULL;
-            mathsArr[i] = NULL;
-            physicsArr[i] = NULL;
-            chemistryArr[i] = NULL;
-        }*/
     }
 }
 
@@ -123,11 +116,9 @@ int getNoOfStudents(){
     for(int i=0; i<N; i++){
         if(indexNoArr[i]){
             no_of_students++;
-            printf("no_of_students : %d\n",indexNoArr[i]);
+            //printf("no_of_students : %d\n",indexNoArr[i]);
         }
     }
-
-   // printf("no_of_students : %d\n",no_of_students);
 }
 
 void addStudent(){
@@ -143,23 +134,43 @@ void addStudent(){
     printf("Enter Chemistry marks : ");
     scanf("%d", &chemistry);
 
+    indexNoArr[array_index] = index;
     mathsArr[array_index] = maths;
     physicsArr[array_index] = physics;
     chemistryArr[array_index] = chemistry;
 
-    //no_of_students = sizeof(indexNoArr)/sizeof(indexNoArr[0]);
-
-    printf("Old No of std %d\n", no_of_students);
+   // printf("Old No of std %d\n", no_of_students);
     no_of_students = no_of_students +1;
-    printf("New No of std %d\n", no_of_students);
+    //printf("New No of std %d\n", no_of_students);
 
-
-    printf("maths %d\n", maths);
-    printf("physics %d\n", physics);
-    printf("Chemistry %d\n", chemistry);
+    //printf("maths %d\n", maths);
+   // printf("physics %d\n", physics);
+   // printf("Chemistry %d\n", chemistry);
     init();
 }
 
+void loadRecords(){
+    int width = 12;
+
+    printf("\n\n");
+    printf("            Advanced Level Marks                           \n");
+    printf("-----------------------------------------------------------\n");
+    printf("%*s", width, "IndexNo");
+    printf("%*s", width, "Maths");
+    printf("%*s", width, "Physics");
+    printf("%*s\n", width, "Chemistry");
+    printf("-----------------------------------------------------------\n");
+    for(int i=0; i < no_of_students; i++){
+        printf("%*d", width, indexNoArr[i]);
+        printf("%*d", width, mathsArr[i]);
+        printf("%*d", width, physicsArr[i]);
+        printf("%*d\n", width, chemistryArr[i]);
+    }
+    printf("-----------------------------------------------------------\n\n");
+    printf("No of students : %d\n", no_of_students);
+    printf("-----------------------------------------------------------\n\n");
+    init();
+}
 
 
 void calculateMathsGrades(){
