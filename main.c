@@ -168,7 +168,7 @@ double calculateMean(int sub){
 double calculateStandardDeviation(double mean, int subject[]){
     double temp = 0.0, sd = 0.0;
 
-    for (int i = 0; i < 10; ++i){
+    for (int i = 0; i < no_of_students; ++i){
         temp += pow(subject[i] - mean, 2);
     }
 
@@ -192,7 +192,7 @@ void storeMathsZScores(){
 }
 
 void storePhysicsZScores(){
-    double physics_mean = calculateMean(0);
+    double physics_mean = calculateMean(1);
     double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
 
     for(int i=0; i < no_of_students; i++){
@@ -201,7 +201,7 @@ void storePhysicsZScores(){
 }
 
 void storeChemistryZScores(){
-    double chemistry_mean = calculateMean(0);
+    double chemistry_mean = calculateMean(2);
     double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
 
     for(int i=0; i < no_of_students; i++){
