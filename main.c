@@ -29,7 +29,7 @@ int main()
                 main();
                 break;
         }
-        printf(" Thank you!.");
+        printf("\nDesigned and developed by Sahan Karunaratne \n");
     }
 
     return 0;
@@ -78,7 +78,8 @@ int reportSubMenu(){
             printGrades();
         break;
         case 2:
-            printf("Here goes Subject summary \n");
+            //printf("Here goes Subject summary \n");
+            printSummary();
         break;
     }
 
@@ -249,16 +250,84 @@ void printGrades(){
     }
 
     printf("-----------------------------------------------------------------\n");
-    printf("No of students : %d----------------------------------------------\n", no_of_students);
+
+    main();
 }
 
+void printSummary(){
 
-/*
-    double maths_mean = calculateMean(0);
-    double physics_mean = calculateMean(1);
-    double chemistry_mean = calculateMean(2);
+    calculateMathsGrades();
+    calculatePhysicsGrades();
+    calculateChemistryGrades();
 
-    double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
-    double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
-    double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
-*/
+    int width = 12;
+
+    printf("\n\n");
+    printf("            Advanced Level Results - Summary                     \n");
+    printf("-----------------------------------------------------------\n");
+    printf("%*s", width, "IndexNo");
+    printf("%*s", width, "Maths");
+    printf("%*s", width, "Physics");
+    printf("%*s\n", width, "Chemistry");
+    printf("-----------------------------------------------------------\n");
+
+
+    int mathsA = 0, physicsA = 0, chemistryA = 0;
+    int mathsB = 0, physicsB = 0, chemistryB = 0;
+    int mathsC = 0, physicsC = 0, chemistryC = 0;
+    int mathsS = 0, physicsS = 0, chemistryS = 0;
+    int mathsF = 0, physicsF = 0, chemistryF = 0;
+
+
+    //grades summary
+     for(int i=0; i < no_of_students; i++){
+        //printf("Maths A --> %c\n", mathsGradeArr[i]);
+        switch((char)mathsGradeArr[i]){
+            case 'A':  mathsA++; break;
+            case 'B':  mathsB++; break;
+            case 'C':  mathsC++; break;
+            case 'S':  mathsS++; break;
+            case 'F':  mathsF++; break;
+        }
+
+        switch((char)physicsGradeArr[i]){
+            case 'A':  physicsA++; break;
+            case 'B':  physicsB++; break;
+            case 'C':  physicsC++; break;
+            case 'S':  physicsS++; break;
+            case 'F':  physicsF++; break;
+        }
+
+        switch((char)chemistryGradeArr[i]){
+            case 'A':  chemistryA++; break;
+            case 'B':  chemistryB++; break;
+            case 'C':  chemistryC++; break;
+            case 'S':  chemistryS++; break;
+            case 'F':  chemistryF++; break;
+        }
+     }
+
+    printf("%*s", width, "A");
+    printf("%*d", width, mathsA);
+    printf("%*d", width, physicsA);
+    printf("%*d\n", width, chemistryA);
+    printf("%*s", width, "B");
+    printf("%*d", width, mathsB);
+    printf("%*d", width, physicsB);
+    printf("%*d\n", width, chemistryB);
+    printf("%*s", width, "C");
+    printf("%*d", width, mathsC);
+    printf("%*d", width, physicsC);
+    printf("%*d\n", width, chemistryC);
+    printf("%*s", width, "S");
+    printf("%*d", width, mathsS);
+    printf("%*d", width, physicsS);
+    printf("%*d\n", width, chemistryS);
+    printf("%*s", width, "F");
+    printf("%*d", width, mathsF);
+    printf("%*d", width, physicsF);
+    printf("%*d\n", width, chemistryF);
+
+    printf("-----------------------------------------------------------\n");
+    main();
+}
