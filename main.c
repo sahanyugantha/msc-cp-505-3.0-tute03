@@ -307,6 +307,13 @@ void printSummary(){
         }
      }
 
+    double maths_mean = calculateMean(0);
+    double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
+    double physics_mean = calculateMean(1);
+    double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
+    double chemistry_mean = calculateMean(2);
+    double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
+
     printf("%*s", width, "A");
     printf("%*d", width, mathsA);
     printf("%*d", width, physicsA);
@@ -327,7 +334,15 @@ void printSummary(){
     printf("%*d", width, mathsF);
     printf("%*d", width, physicsF);
     printf("%*d\n", width, chemistryF);
+    printf("%*s", width, "Mean");
+    printf("%*.2f", width, maths_mean);
+    printf("%*.2f", width, physics_mean);
+    printf("%*.2f\n", width, chemistry_mean);
+    printf("%*s", width, "Stan Dev");
+    printf("%*.2f", width, mathsSD);
+    printf("%*.2f", width, physicsSD);
+    printf("%*.2f\n", width, chemistrySD);
 
-    printf("-----------------------------------------------------------\n");
+    printf("-----------------------------------------------------------\n\n");
     main();
 }
