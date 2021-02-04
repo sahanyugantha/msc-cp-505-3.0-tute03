@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-//int menuOption;
-
-//int indexNoArr[];
-//int mathsArr[], physicsArr[], chemistryArr[];
 int indexNoArr[] = {125,226,184,165,201};
-int mathsArr[] = {55,78,84,44,40};
-int physicsArr[] = {68,68,87,24,57};
+int mathsArr[] =  {95,78,84,44,40};
+int physicsArr[] =  {98,68,87,24,57};
 int chemistryArr[] = {95,55,92,32,54};
 
-char mathsGradeArr[], physicsGradeArr[], chemistryGradeArr[];
+char* mathsGradeArr[5], physicsGradeArr[5], chemistryGradeArr[5];
+double mathsZScores[5], physicsZScores[5], chemistryZScores[5], studentZScores[5];
+
+int no_of_students = 0;
 
 int main()
 {
+    no_of_students = sizeof(indexNoArr)/sizeof(indexNoArr[0]);
+
     int menuOption = showMainMenu();
     if(menuOption<1 || menuOption>7 ){
         printf(" Please enter valid option no  \n");
@@ -27,7 +29,7 @@ int main()
                 main();
                 break;
         }
-        printf(" Yeah!  \n");
+        printf(" Thank you!.");
     }
 
     return 0;
@@ -51,7 +53,6 @@ int showMainMenu(){
     scanf("%d", &mainMenuOption);
     printf("---------------------------- \n");
 
-    //printf("Number : %d", mainMenuOption);
     return mainMenuOption;
 }
 
@@ -86,33 +87,33 @@ int reportSubMenu(){
 }
 
 /*void loadInputs(){
-     int indexNoArr[] = {125,226,184,165,201};
+     indexNoArr[] = {125,226,184,165,201};
      mathsArr[] = {55,78,85,44,40};
      physicsArr[] = {68,68,87,24,57};
      chemistryArr[] = {95,55,92,32,54};
 }*/
 
-void calculateGrades(int maths[]){
+void calculateMathsGrades(){
 
-    for(int i=0; i < sizeof(maths); i++){
-        if(maths[i] > 75){
+    for(int i=0; i < no_of_students; i++){
+        if(mathsArr[i] > 74){
             mathsGradeArr[i] = 'A';
-        } else if(maths[i] > 64){
+        } else if(mathsArr[i] > 64){
             mathsGradeArr[i] = 'B';
-        } else if(maths[i] > 49){
+        } else if(mathsArr[i] > 49){
             mathsGradeArr[i] = 'C';
-        } else if(maths[i] > 34){
+        } else if(mathsArr[i] > 34){
             mathsGradeArr[i] = 'S';
         } else {
             mathsGradeArr[i] = 'F';
         }
     }
 }
-/*
+
 void calculatePhysicsGrades(){
 
-    for(int i=0; i < sizeof(physicsArr); i++){
-        if(physicsArr[i] > 75){
+    for(int i=0; i < no_of_students; i++){
+        if(physicsArr[i] > 74){
             physicsGradeArr[i] = 'A';
         } else if(physicsArr[i] > 64){
             physicsGradeArr[i] = 'B';
@@ -128,8 +129,8 @@ void calculatePhysicsGrades(){
 
 void calculateChemistryGrades(){
 
-    for(int i=0; i < sizeof(chemistryArr); i++){
-        if(chemistryArr[i] > 75){
+    for(int i=0; i < no_of_students; i++){
+        if(chemistryArr[i] > 74){
             chemistryGradeArr[i] = 'A';
         } else if(chemistryArr[i] > 64){
             chemistryGradeArr[i] = 'B';
@@ -141,7 +142,7 @@ void calculateChemistryGrades(){
             chemistryGradeArr[i] = 'F';
         }
     }
-}*/
+}
 
 /**
 * Maths = 0
@@ -149,11 +150,9 @@ void calculateChemistryGrades(){
 * Chemistry = 2
 */
 double calculateMean(int sub){
-
     int total = 0;
-    int no_of_std = sizeof(indexNoArr);
 
-    for(int i = 0; i < no_of_std; i++){
+    for(int i = 0; i < no_of_students; i++){
         if(sub == 0){
             total = total + mathsArr[i];
         } else if(1){
@@ -162,21 +161,74 @@ double calculateMean(int sub){
             total = total + chemistryArr[i];
         }
     }
-
-    double mean = (double) total / no_of_std;
-
+    double mean = (double) total / no_of_students;
     return mean;
+}
 
+double calculateStandardDeviation(double mean, int subject[]){
+    double temp = 0.0, sd = 0.0;
+
+    for (int i = 0; i < 10; ++i){
+        temp += pow(subject[i] - mean, 2);
+    }
+
+    sd = sqrt(temp/no_of_students);
+    return sd;
+}
+
+double calculateZScore(double mean, double sd, int marks){
+    double z_score = 0.0;
+    z_score = (marks - mean)/sd;
+    return z_score;
+}
+
+void storeMathsZScores(){
+    double maths_mean = calculateMean(0);
+    double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
+
+    for(int i=0; i < no_of_students; i++){
+        mathsZScores[i] = calculateZScore(maths_mean, mathsSD, mathsArr[i]);
+    }
+}
+
+void storePhysicsZScores(){
+    double physics_mean = calculateMean(0);
+    double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
+
+    for(int i=0; i < no_of_students; i++){
+        physicsZScores[i] = calculateZScore(physics_mean, physicsSD, physicsArr[i]);
+    }
+}
+
+void storeChemistryZScores(){
+    double chemistry_mean = calculateMean(0);
+    double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
+
+    for(int i=0; i < no_of_students; i++){
+        chemistryZScores[i] = calculateZScore(chemistry_mean, chemistrySD, chemistryArr[i]);
+    }
+}
+
+void calculateStudentZScores(){
+
+    storeMathsZScores();
+    storePhysicsZScores();
+    storeChemistryZScores();
+
+    for(int i=0; i<no_of_students; i++){
+        studentZScores[i] = (mathsZScores[i] + physicsZScores[i] + chemistryZScores[i])/3;
+    }
 }
 
 void printGrades(){
 
-    calculateGrades(mathsArr);
-//    calculatePhysicsGrades();
- //   calculateChemistryGrades();
+    calculateMathsGrades();
+    calculatePhysicsGrades();
+    calculateChemistryGrades();
+
+    calculateStudentZScores();
 
     int width = 12;
-
 
     printf("\n\n");
     printf("                     Advanced Level Results                      \n");
@@ -188,16 +240,25 @@ void printGrades(){
     printf("%*s\n", width, "Z-Score");
     printf("-----------------------------------------------------------------\n");
 
-    for(int i=0; i < 5; i++){
-        printf("%*d", width,  indexNoArr[i]);
-        printf("%*c", width,  mathsGradeArr[i]);
-        //printf("%*c", width,  physicsGradeArr[i]);
-        //printf("%*c", width,  chemistryGradeArr[i]);
-        printf("%*s\n", width,  "0.0000");
+    for(int i=0; i < no_of_students; i++){
+        printf("%*d", width, indexNoArr[i]);
+        printf("%*c", width, mathsGradeArr[i]);
+        printf("%*c", width, physicsGradeArr[i]);
+        printf("%*c", width, chemistryGradeArr[i]);
+        printf("%*.4f\n", width, studentZScores[i]);
     }
 
-     printf("-----------------------------------------------------------------\n");
-
-     double m_m = calculateMean(0);
-     printf("Maths Mean =  %1f", m_m);
+    printf("-----------------------------------------------------------------\n");
+    printf("No of students : %d----------------------------------------------\n", no_of_students);
 }
+
+
+/*
+    double maths_mean = calculateMean(0);
+    double physics_mean = calculateMean(1);
+    double chemistry_mean = calculateMean(2);
+
+    double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
+    double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
+    double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
+*/
