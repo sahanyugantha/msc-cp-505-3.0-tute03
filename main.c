@@ -2,37 +2,49 @@
 #include <stdlib.h>
 #include <math.h>
 
-int indexNoArr[] = {125,226,184,165,201};
-int mathsArr[] =  {95,78,84,44,40};
-int physicsArr[] =  {98,68,87,24,57};
-int chemistryArr[] = {95,55,92,32,54};
+//Bulk data.
+int s_indexNoArr[] = {125,226,184,165,201};
+int s_mathsArr[] =  {95,78,84,44,40};
+int s_physicsArr[] =  {98,68,87,24,57};
+int s_chemistryArr[] = {95,55,92,32,54};
 
-char* mathsGradeArr[5], physicsGradeArr[5], chemistryGradeArr[5];
-double mathsZScores[5], physicsZScores[5], chemistryZScores[5], studentZScores[5];
+//N = no of students sat for the exam.
+#define N 100
+
+int indexNoArr[N], mathsArr[N], physicsArr[N], chemistryArr[N];
+char* mathsGradeArr[N], physicsGradeArr[N], chemistryGradeArr[N];
+double mathsZScores[N], physicsZScores[N], chemistryZScores[N], studentZScores[N];
 
 int no_of_students = 0;
 
 int main()
 {
-    no_of_students = sizeof(indexNoArr)/sizeof(indexNoArr[0]);
+    loadBlukInputs();
+    getNoOfStudents();
+    init();
 
+    return 0;
+}
+
+void init(){
     int menuOption = showMainMenu();
     if(menuOption<1 || menuOption>7 ){
         printf(" Please enter valid option no  \n");
-        main();
+        init();
     } else {
         switch (menuOption){
+            case 1:
+                addStudent();
+                break;
             case 5:
                 reportSubMenu();
                 break;
             default:
-                main();
+                init();
                 break;
         }
         printf("\nDesigned and developed by Sahan Karunaratne \n");
     }
-
-    return 0;
 }
 
 int showMainMenu(){
@@ -55,6 +67,7 @@ int showMainMenu(){
 
     return mainMenuOption;
 }
+
 
 int reportSubMenu(){
 
@@ -82,17 +95,72 @@ int reportSubMenu(){
             printSummary();
         break;
     }
-
-
     return reportMenuOption;
 }
 
-/*void loadInputs(){
-     indexNoArr[] = {125,226,184,165,201};
-     mathsArr[] = {55,78,85,44,40};
-     physicsArr[] = {68,68,87,24,57};
-     chemistryArr[] = {95,55,92,32,54};
-}*/
+void loadBlukInputs(){
+
+
+    for(int i=0; i < N; i++){
+        if(i < 5){
+            indexNoArr[i] = s_indexNoArr[i];
+            mathsArr[i] = s_mathsArr[i];
+            physicsArr[i] = s_physicsArr[i];
+            chemistryArr[i] = s_chemistryArr[i];
+        }
+
+        //prepare arrays
+        /*if(i >= bulk_no_of_std){
+            indexNoArr[i] = NULL;
+            mathsArr[i] = NULL;
+            physicsArr[i] = NULL;
+            chemistryArr[i] = NULL;
+        }*/
+    }
+}
+
+int getNoOfStudents(){
+    for(int i=0; i<N; i++){
+        if(indexNoArr[i]){
+            no_of_students++;
+            printf("no_of_students : %d\n",indexNoArr[i]);
+        }
+    }
+
+   // printf("no_of_students : %d\n",no_of_students);
+}
+
+void addStudent(){
+    int index = 0, maths = 0, physics = 0, chemistry = 0;
+    int array_index = no_of_students;
+
+    printf("Enter Index No : ");
+    scanf("%d", &index);
+    printf("Enter Maths marks : ");
+    scanf("%d", &maths);
+    printf("Enter Physics marks : ");
+    scanf("%d", &physics);
+    printf("Enter Chemistry marks : ");
+    scanf("%d", &chemistry);
+
+    mathsArr[array_index] = maths;
+    physicsArr[array_index] = physics;
+    chemistryArr[array_index] = chemistry;
+
+    //no_of_students = sizeof(indexNoArr)/sizeof(indexNoArr[0]);
+
+    printf("Old No of std %d\n", no_of_students);
+    no_of_students = no_of_students +1;
+    printf("New No of std %d\n", no_of_students);
+
+
+    printf("maths %d\n", maths);
+    printf("physics %d\n", physics);
+    printf("Chemistry %d\n", chemistry);
+    init();
+}
+
+
 
 void calculateMathsGrades(){
 
@@ -251,7 +319,7 @@ void printGrades(){
 
     printf("-----------------------------------------------------------------\n");
 
-    main();
+    init();
 }
 
 void printSummary(){
@@ -344,5 +412,5 @@ void printSummary(){
     printf("%*.2f\n", width, chemistrySD);
 
     printf("-----------------------------------------------------------\n\n");
-    main();
+    init();
 }
