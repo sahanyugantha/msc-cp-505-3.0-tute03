@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include<stdbool.h>
 
 //Bulk data.
 int s_indexNoArr[] = {125,226,184,165,201};
@@ -38,6 +39,9 @@ void init(){
                 break;
             case 3:
                 loadRecords();
+                break;
+            case 4:
+                searchStudent();
                 break;
             case 5:
                 reportSubMenu();
@@ -172,6 +176,47 @@ void loadRecords(){
     init();
 }
 
+void searchStudent(){
+
+    int index = 0;
+    printf("Enter index no : ");
+    scanf("%d", &index);
+    int width = 12;
+    bool found = false;
+
+    calculateMathsGrades();
+    calculatePhysicsGrades();
+    calculateChemistryGrades();
+    calculateStudentZScores();
+
+    for(int i=0; i < N; i++){
+        if(indexNoArr[i] == index){
+            found = true;
+            printf("\n\n");
+            printf("Index No : %d\n", index);
+            printf("-----------------------------------------------------------\n");
+            printf("      %*s", width, "");
+            printf("%*s", width, "Maths");
+            printf("%*s", width, "Physics");
+            printf("%*s\n", width, "Chemistry");
+            printf("-----------------------------------------------------------\n\n");
+            printf("Marks %*s", width, "");
+            printf("%*d", width, mathsArr[i]);
+            printf("%*d", width, physicsArr[i]);
+            printf("%*d\n", width, chemistryArr[i]);
+            printf("Grade %*s", width, "");
+            printf("%*c", width, mathsGradeArr[i]);
+            printf("%*c", width, physicsGradeArr[i]);
+            printf("%*c\n", width, chemistryGradeArr[i]);
+            printf("Z-Score : %.4f\n", studentZScores[i]);
+            printf("-----------------------------------------------------------\n\n");
+        }
+    }
+    if(found == false){
+        printf("No records found for Index No %d\n\n", index);
+    }
+    init();
+}
 
 void calculateMathsGrades(){
 
