@@ -11,10 +11,21 @@ int s_chemistryArr[] = {95,55,92,32,54};
 
 //N = no of students sat for the exam.
 #define N 100
+
 //Initialize the each subject array.
 int indexNoArr[N], mathsArr[N], physicsArr[N], chemistryArr[N];
+//Initialize the each subject's grade array.
 char mathsGradeArr[N], physicsGradeArr[N], chemistryGradeArr[N];
+//Initialize the each subject's z-score array.
 double mathsZScores[N], physicsZScores[N], chemistryZScores[N], studentZScores[N];
+
+//Each grade
+int mathsA = 0, physicsA = 0, chemistryA = 0;
+int mathsB = 0, physicsB = 0, chemistryB = 0;
+int mathsC = 0, physicsC = 0, chemistryC = 0;
+int mathsS = 0, physicsS = 0, chemistryS = 0;
+int mathsF = 0, physicsF = 0, chemistryF = 0;
+
 
 int no_of_students = 0;
 
@@ -26,7 +37,10 @@ int main()
 
     return 0;
 }
-
+/**
+*Program initialization method.
+*This will show the main menu.
+**/
 void init(){
     int menuOption = showMainMenu();
     if(menuOption<1 || menuOption>7 ){
@@ -46,6 +60,9 @@ void init(){
             case 5:
                 reportSubMenu();
                 break;
+            case 6:
+                graphSubMenu();
+                break;
             case 7:
                 exit(0);
                 break;
@@ -57,6 +74,9 @@ void init(){
     }
 }
 
+/**
+*Main menu method.
+**/
 int showMainMenu(){
     int mainMenuOption;
 
@@ -78,7 +98,9 @@ int showMainMenu(){
     return mainMenuOption;
 }
 
-
+/**
+*Reports sub menu method.
+**/
 int reportSubMenu(){
 
     int reportMenuOption;
@@ -107,7 +129,40 @@ int reportSubMenu(){
     }
     return reportMenuOption;
 }
+/**
+*Graphs sub menu method.
+**/
+int graphSubMenu(){
 
+    int reportMenuOption;
+
+    printf("---------------------------- \n");
+    printf(" Please select report type     \n");
+    printf("---------------------------- \n");
+    printf(" 1) Grade Analysis \n");
+    printf(" 2) Subject Analysis \n");
+    printf(" 3) Exit \n");
+    printf("---------------------------- \n");
+    printf(" Please enter your choice :  ");
+    scanf("%d", &reportMenuOption);
+    printf("---------------------------- \n");
+
+    //validation must do later.
+    switch(reportMenuOption){
+        case 1:
+           // printf("Here goes Grade Analysis graph \n");
+            printGradeGraph();
+        break;
+        case 2:
+            printf("Here goes Subject Analysis graph \n");
+            //printSummary();
+        break;
+    }
+    return reportMenuOption;
+}
+/**
+*This method is to load some bulk data as this system isn't associated with any database.
+**/
 void loadBlukInputs(){
     for(int i=0; i < N; i++){
         if(i < 5){
@@ -118,7 +173,9 @@ void loadBlukInputs(){
         }
     }
 }
-
+/**
+*This method is to calculate number of students programtically.
+**/
 int getNoOfStudents(){
     for(int i=0; i<N; i++){
         if(indexNoArr[i]){
@@ -127,7 +184,9 @@ int getNoOfStudents(){
         }
     }
 }
-
+/**
+*This method is to add a student to index and subject arrays.
+**/
 void addStudent(){
     int index = 0, maths = 0, physics = 0, chemistry = 0;
     int array_index = no_of_students;
@@ -155,7 +214,9 @@ void addStudent(){
    // printf("Chemistry %d\n", chemistry);
     init();
 }
-
+/**
+*This method is to load student records to console screen.
+**/
 void loadRecords(){
     int width = 12;
 
@@ -178,7 +239,9 @@ void loadRecords(){
     printf("-----------------------------------------------------------\n\n");
     init();
 }
-
+/**
+*This method is to search a student records.
+**/
 void searchStudent(){
 
     int index = 0;
@@ -220,7 +283,9 @@ void searchStudent(){
     }
     init();
 }
-
+/**
+*This method is to calculate the maths grade.
+**/
 void calculateMathsGrades(){
 
     for(int i=0; i < no_of_students; i++){
@@ -237,7 +302,9 @@ void calculateMathsGrades(){
         }
     }
 }
-
+/**
+*This method is to calculate the physics grade.
+**/
 void calculatePhysicsGrades(){
 
     for(int i=0; i < no_of_students; i++){
@@ -254,7 +321,9 @@ void calculatePhysicsGrades(){
         }
     }
 }
-
+/**
+*This method is to calculate the chemistry grade.
+**/
 void calculateChemistryGrades(){
 
     for(int i=0; i < no_of_students; i++){
@@ -273,6 +342,7 @@ void calculateChemistryGrades(){
 }
 
 /**
+*This method is to calculate the mean of each subject.
 * Maths = 0
 * Physics = 1
 * Chemistry = 2
@@ -292,7 +362,11 @@ double calculateMean(int sub){
     double mean = (double) total / no_of_students;
     return mean;
 }
-
+/**
+*This method is to calculate the Standard Deviation of each subject.
+*mean = Mean of the subject.
+*subject = subject's array.
+*/
 double calculateStandardDeviation(double mean, int subject[]){
     double temp = 0.0, sd = 0.0;
 
@@ -303,13 +377,20 @@ double calculateStandardDeviation(double mean, int subject[]){
     sd = sqrt(temp/no_of_students);
     return sd;
 }
-
+/**
+*This method is to calculate the Z-Score of each subject.
+*mean = Mean of the subject.
+*sd = Standard Deviation of the subject.
+*marks = student's marks for the subject.
+*/
 double calculateZScore(double mean, double sd, int marks){
     double z_score = 0.0;
     z_score = (marks - mean)/sd;
     return z_score;
 }
-
+/**
+*This method is to calculate and store Z-Score of maths.
+*/
 void storeMathsZScores(){
     double maths_mean = calculateMean(0);
     double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
@@ -318,7 +399,9 @@ void storeMathsZScores(){
         mathsZScores[i] = calculateZScore(maths_mean, mathsSD, mathsArr[i]);
     }
 }
-
+/**
+*This method is to calculate and store Z-Score of physics.
+*/
 void storePhysicsZScores(){
     double physics_mean = calculateMean(1);
     double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
@@ -327,7 +410,9 @@ void storePhysicsZScores(){
         physicsZScores[i] = calculateZScore(physics_mean, physicsSD, physicsArr[i]);
     }
 }
-
+/**
+*This method is to calculate and store Z-Score of chemistry.
+*/
 void storeChemistryZScores(){
     double chemistry_mean = calculateMean(2);
     double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
@@ -336,7 +421,9 @@ void storeChemistryZScores(){
         chemistryZScores[i] = calculateZScore(chemistry_mean, chemistrySD, chemistryArr[i]);
     }
 }
-
+/**
+*This method is to calculate final Z-Score of each student.
+*/
 void calculateStudentZScores(){
 
     storeMathsZScores();
@@ -347,7 +434,9 @@ void calculateStudentZScores(){
         studentZScores[i] = (mathsZScores[i] + physicsZScores[i] + chemistryZScores[i])/3;
     }
 }
-
+/**
+*This method is to print grades to console screen.
+*/
 void printGrades(){
 
     calculateMathsGrades();
@@ -377,34 +466,17 @@ void printGrades(){
     }
 
     printf("-----------------------------------------------------------------\n");
-
     init();
 }
 
-void printSummary(){
 
+/**
+*This method is to calculate each grade quantities for each subject.
+*/
+void calculateEachGradeQuantities(){
     calculateMathsGrades();
     calculatePhysicsGrades();
     calculateChemistryGrades();
-
-    int width = 12;
-
-    printf("\n\n");
-    printf("            Advanced Level Results - Summary                     \n");
-    printf("-----------------------------------------------------------\n");
-    printf("%*s", width, "IndexNo");
-    printf("%*s", width, "Maths");
-    printf("%*s", width, "Physics");
-    printf("%*s\n", width, "Chemistry");
-    printf("-----------------------------------------------------------\n");
-
-
-    int mathsA = 0, physicsA = 0, chemistryA = 0;
-    int mathsB = 0, physicsB = 0, chemistryB = 0;
-    int mathsC = 0, physicsC = 0, chemistryC = 0;
-    int mathsS = 0, physicsS = 0, chemistryS = 0;
-    int mathsF = 0, physicsF = 0, chemistryF = 0;
-
 
     //grades summary
      for(int i=0; i < no_of_students; i++){
@@ -433,6 +505,25 @@ void printSummary(){
             case 'F':  chemistryF++; break;
         }
      }
+}
+
+/**
+*This method is to print results summary to console screen.
+*/
+void printSummary(){
+
+    calculateEachGradeQuantities();
+
+    int width = 12;
+
+    printf("\n\n");
+    printf("            Advanced Level Results - Summary                     \n");
+    printf("-----------------------------------------------------------\n");
+    printf("%*s", width, "IndexNo");
+    printf("%*s", width, "Maths");
+    printf("%*s", width, "Physics");
+    printf("%*s\n", width, "Chemistry");
+    printf("-----------------------------------------------------------\n");
 
     double maths_mean = calculateMean(0);
     double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
@@ -471,5 +562,45 @@ void printSummary(){
     printf("%*.2f\n", width, chemistrySD);
 
     printf("-----------------------------------------------------------\n\n");
+    init();
+}
+/**
+*This method is to print grades analysis graph to console screen.
+*/
+void printGradeGraph(){
+
+    calculateEachGradeQuantities();
+
+    printf("                  Grades Analysis Graph                    \n");
+    printf("-----------------------------------------------------------\n");
+    printf("  #%*s", 8, " - Maths \n");
+    printf("  &%*s", 8, " - Physics \n");
+    printf("  $%*s", 8, " - Chemistry \n");
+    printf("-----------------------------------------------------------\n");
+
+    //Calculate sum of each grade.
+    int noOfAs = mathsA + physicsA + chemistryA;
+    int noOfBs = mathsB + physicsB + chemistryB;
+    int noOfCs = mathsC + physicsC + chemistryC;
+    int noOfSs = mathsS + physicsS + chemistryS;
+    int noOfFs = mathsF + physicsF + chemistryF;
+
+    //calculate percentage of each grade.
+    int maths_A_perc=0, physics_A_perc=0, chemistry_A_perc=0;
+    maths_A_perc = (int)(((double)mathsA/(double)noOfAs)*100);
+    physics_A_perc = (int)(((double)physicsA/(double)noOfAs)*100);
+    chemistry_A_perc = (int)(((double)chemistryA/(double)noOfAs)*100);
+
+    printf("M -  %*d \n", 3, maths_A_perc);
+    printf("P -  %*d \n", 3, physics_A_perc);
+    printf("C -  %*d \n", 3, chemistry_A_perc);
+
+    int x = 5;
+    while(x!=0){
+        printf("#");
+        x--;
+    }
+    printf("\n");
+
     init();
 }
