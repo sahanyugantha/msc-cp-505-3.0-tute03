@@ -11,9 +11,9 @@ int s_chemistryArr[] = {95,55,92,32,54};
 
 //N = no of students sat for the exam.
 #define N 100
-
+//Initialize the each subject array.
 int indexNoArr[N], mathsArr[N], physicsArr[N], chemistryArr[N];
-char* mathsGradeArr[N], physicsGradeArr[N], chemistryGradeArr[N];
+char mathsGradeArr[N], physicsGradeArr[N], chemistryGradeArr[N];
 double mathsZScores[N], physicsZScores[N], chemistryZScores[N], studentZScores[N];
 
 int no_of_students = 0;
