@@ -4,10 +4,10 @@
 #include<stdbool.h>
 
 //Bulk data.
-int s_indexNoArr[] = {125,226,184,165,201};
-int s_mathsArr[] =  {95,78,84,44,40};
-int s_physicsArr[] =  {98,68,87,24,57};
-int s_chemistryArr[] = {95,55,92,32,54};
+int s_indexNoArr[] = {125,226,184,165,201,135,216,174,195,200};
+int s_mathsArr[] =  {95,66,84,44,40,55,68,54,24,69};
+int s_physicsArr[] =  {98,48,87,24,57,18,28,87,66,57};
+int s_chemistryArr[] = {95,55,92,32,54,65,81,62,42,44};
 
 //N = no of students sat for the exam.
 #define N 100
@@ -162,10 +162,11 @@ int graphSubMenu(){
 }
 /**
 *This method is to load some bulk data as this system isn't associated with any database.
+* There records of 10 students.
 **/
 void loadBlukInputs(){
     for(int i=0; i < N; i++){
-        if(i < 5){
+        if(i < 10){
             indexNoArr[i] = s_indexNoArr[i];
             mathsArr[i] = s_mathsArr[i];
             physicsArr[i] = s_physicsArr[i];
@@ -566,6 +567,24 @@ void printSummary(){
 }
 /**
 *This method is to print grades analysis graph to console screen.
+*symbol - the symbol to draw graph for each subject.
+*percentage -  percentage
+*/
+void gradeGraphPrinter(char symbol, int percentage){
+    int org_percentage = percentage; // to keep original percentage.
+    printf("\n");
+    if(percentage == 0)
+        printf(" - %d%%", org_percentage);
+    while(percentage!=0){
+        printf("%c",symbol);
+        percentage--;
+        if(percentage == 0)
+            printf(" - %d%%", org_percentage);
+    }
+   // printf("\n");
+}
+/**
+*This method is to organize print grades analysis graph.
 */
 void printGradeGraph(){
 
@@ -587,20 +606,61 @@ void printGradeGraph(){
 
     //calculate percentage of each grade.
     int maths_A_perc=0, physics_A_perc=0, chemistry_A_perc=0;
+    int maths_B_perc=0, physics_B_perc=0, chemistry_B_perc=0;
+    int maths_C_perc=0, physics_C_perc=0, chemistry_C_perc=0;
+    int maths_S_perc=0, physics_S_perc=0, chemistry_S_perc=0;
+    int maths_F_perc=0, physics_F_perc=0, chemistry_F_perc=0;
+
     maths_A_perc = (int)(((double)mathsA/(double)noOfAs)*100);
     physics_A_perc = (int)(((double)physicsA/(double)noOfAs)*100);
     chemistry_A_perc = (int)(((double)chemistryA/(double)noOfAs)*100);
 
-    printf("M -  %*d \n", 3, maths_A_perc);
-    printf("P -  %*d \n", 3, physics_A_perc);
-    printf("C -  %*d \n", 3, chemistry_A_perc);
+    maths_B_perc = (int)(((double)mathsB/(double)noOfBs)*100);
+    physics_B_perc = (int)(((double)physicsB/(double)noOfBs)*100);
+    chemistry_B_perc = (int)(((double)chemistryB/(double)noOfBs)*100);
 
-    int x = 5;
-    while(x!=0){
-        printf("#");
-        x--;
-    }
+    maths_C_perc = (int)(((double)mathsC/(double)noOfCs)*100);
+    physics_C_perc = (int)(((double)physicsC/(double)noOfCs)*100);
+    chemistry_C_perc = (int)(((double)chemistryC/(double)noOfCs)*100);
+
+    maths_S_perc = (int)(((double)mathsS/(double)noOfSs)*100);
+    physics_S_perc = (int)(((double)physicsS/(double)noOfSs)*100);
+    chemistry_S_perc = (int)(((double)chemistryS/(double)noOfSs)*100);
+
+    maths_F_perc = (int)(((double)mathsF/(double)noOfFs)*100);
+    physics_F_perc = (int)(((double)physicsF/(double)noOfFs)*100);
+    chemistry_F_perc = (int)(((double)chemistryF/(double)noOfFs)*100);
+
     printf("\n");
+    printf(" A grades \n");
+    gradeGraphPrinter(35, maths_A_perc); //Maths As | ASCII 35 = #
+    gradeGraphPrinter(38, physics_A_perc); //Physics As  | ASCII 38 = &
+    gradeGraphPrinter(36, chemistry_A_perc); //Chemistry As  | ASCII 36 = $
+    printf("\n");
+    printf("\n");
+    printf(" B grades \n");
+    gradeGraphPrinter(35, maths_B_perc); //Maths As | ASCII 35 = #
+    gradeGraphPrinter(38, physics_B_perc); //Physics As  | ASCII 38 = &
+    gradeGraphPrinter(36, chemistry_B_perc); //Chemistry As  | ASCII 36 = $
+    printf("\n");
+    printf("\n");
+    printf(" C grades \n");
+    gradeGraphPrinter(35, maths_C_perc); //Maths As | ASCII 35 = #
+    gradeGraphPrinter(38, physics_C_perc); //Physics As  | ASCII 38 = &
+    gradeGraphPrinter(36, chemistry_C_perc); //Chemistry As  | ASCII 36 = $
+    printf("\n");
+    printf("\n");
+    printf(" S grades \n");
+    gradeGraphPrinter(35, maths_S_perc); //Maths As | ASCII 35 = #
+    gradeGraphPrinter(38, physics_S_perc); //Physics As  | ASCII 38 = &
+    gradeGraphPrinter(36, chemistry_S_perc); //Chemistry As  | ASCII 36 = $
+    printf("\n");
+    printf("\n");
+    printf(" F grades \n");
+    gradeGraphPrinter(35, maths_F_perc); //Maths As | ASCII 35 = #
+    gradeGraphPrinter(38, physics_F_perc); //Physics As  | ASCII 38 = &
+    gradeGraphPrinter(36, chemistry_F_perc); //Chemistry As  | ASCII 36 = $
 
+    printf("\n\n");
     init();
 }
