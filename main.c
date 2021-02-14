@@ -151,11 +151,11 @@ int graphSubMenu(){
     switch(reportMenuOption){
         case 1:
            // printf("Here goes Grade Analysis graph \n");
-            printGradeGraph();
+            printGradeAnalysisGraph();
         break;
         case 2:
-            printf("Here goes Subject Analysis graph \n");
-            //printSummary();
+            //printf("Here goes Subject Analysis graph \n");
+             printSubjectAnalysisGraph();
         break;
     }
     return reportMenuOption;
@@ -586,10 +586,11 @@ void gradeGraphPrinter(char symbol, int percentage){
 /**
 *This method is to organize print grades analysis graph.
 */
-void printGradeGraph(){
+void printGradeAnalysisGraph(){
 
     calculateEachGradeQuantities();
 
+    printf("\n");
     printf("                  Grades Analysis Graph                    \n");
     printf("-----------------------------------------------------------\n");
     printf("  #%*s", 8, " - Maths \n");
@@ -661,6 +662,64 @@ void printGradeGraph(){
     gradeGraphPrinter(38, physics_F_perc); //Physics As  | ASCII 38 = &
     gradeGraphPrinter(36, chemistry_F_perc); //Chemistry As  | ASCII 36 = $
 
-    printf("\n\n");
+    printf("\n\n\n");
+    init();
+}
+
+/**
+*This method is to print grades analysis graph to console screen.
+*symbol - the symbol to draw graph for each subject.
+*percentage -  percentage
+*/
+void subjectGraphPrinter(char symbol, int percentage){
+    int org_percentage = percentage; // to keep original percentage.
+    printf("\n");
+    if(percentage == 0)
+        printf(" - %d%%", org_percentage);
+    while(percentage!=0){
+        printf("%c",symbol);
+        percentage--;
+        if(percentage == 0)
+            printf(" - %d%%", org_percentage);
+    }
+   // printf("\n");
+}
+
+/**
+*This method is to organize print grades analysis graph.
+*/
+void printSubjectAnalysisGraph(){
+    // Mean percentage calculations.
+    double maths_mean = calculateMean(0);
+    double physics_mean = calculateMean(1);
+    double chemistry_mean = calculateMean(2);
+
+    double mathsSD = calculateStandardDeviation(maths_mean, mathsArr);
+    double physicsSD = calculateStandardDeviation(physics_mean, physicsArr);
+    double chemistrySD = calculateStandardDeviation(chemistry_mean, chemistryArr);
+
+    printf("\n");
+    printf("                  Subject Analysis Graph                   \n");
+    printf("-----------------------------------------------------------\n");
+    printf("  #%*s", 8, " - Mean \n");
+    printf("  $%*s", 8, " - Standard Deviation \n");
+    printf("-----------------------------------------------------------\n");
+
+    printf("\n");
+    printf(" Maths \n");
+    subjectGraphPrinter(35, (int)maths_mean); //Mean As | ASCII 35 = #
+    subjectGraphPrinter(36, (int)mathsSD); //Standard Deviation As  | ASCII 36 = $
+    printf("\n");
+    printf("\n");
+    printf(" Physics \n");
+    subjectGraphPrinter(35, (int)physics_mean); //Mean As | ASCII 35 = #
+    subjectGraphPrinter(36, (int)physicsSD); //Standard Deviation As  | ASCII 36 = $
+    printf("\n");
+    printf("\n");
+    printf(" Chemistry \n");
+    subjectGraphPrinter(35, (int)chemistry_mean); //Mean As | ASCII 35 = #
+    subjectGraphPrinter(36, (int)chemistrySD); //Standard Deviation As  | ASCII 36 = $
+
+    printf("\n\n\n");
     init();
 }
