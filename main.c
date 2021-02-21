@@ -137,7 +137,7 @@ int graphSubMenu(){
     int reportMenuOption;
 
     printf("---------------------------- \n");
-    printf(" Please select report type     \n");
+    printf(" Please select graph type     \n");
     printf("---------------------------- \n");
     printf(" 1) Grade Analysis \n");
     printf(" 2) Subject Analysis \n");
